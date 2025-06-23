@@ -1,6 +1,10 @@
-# Content
+# Ignore everything in Content/
 Content/*
-!Content/Blueprint
+
+# But NOT the Blueprint folder
+!Content/Blueprint/
+
+# Also ensure Blueprint's contents are not ignored
 !Content/Blueprint/**
 
 # Visual Studio 2015 user specific files
