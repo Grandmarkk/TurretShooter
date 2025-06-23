@@ -1,12 +1,3 @@
-# Ignore everything in Content/
-Content/*
-
-# But NOT the Blueprint folder
-!Content/Blueprint/
-
-# Also ensure Blueprint's contents are not ignored
-!Content/Blueprint/**
-
 # Visual Studio 2015 user specific files
 .vs/
 
@@ -81,3 +72,12 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Ignore everything in Content/
+Content/*
+
+# But NOT the Blueprint folder
+!Content/Blueprint/
+
+# Also ensure Blueprint's contents are not ignored
+!Content/Blueprint/**
