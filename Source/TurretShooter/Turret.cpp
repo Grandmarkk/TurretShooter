@@ -2,7 +2,7 @@
 
 
 #include "Turret.h"
-#include "BulletProjectile.h"
+#include "Projectile.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/ArrowComponent.h"
 #include "GameFramework/Character.h"
