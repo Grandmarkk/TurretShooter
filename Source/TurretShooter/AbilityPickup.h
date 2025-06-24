@@ -19,7 +19,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	virtual void GrantAbility();
 
 public:	
 	// Called every frame
@@ -30,8 +29,19 @@ public:
 	class UGameplayAbility* Ability;
 
 	// Collision box
-
+	UPROPERTY(EditAnywhere, Category = "Components")
+	class UBoxComponent* CollisionBox;
 
 	// Mesh
+	UPROPERTY(EditAnywhere, Category = "Components")
+	class UStaticMeshComponent* Mesh;
 
+	UPROPERTY(EditAnywhere)
+	USoundBase* PickupSound;
+
+	UFUNCTION(BlueprintCallable)
+	void OnPlayerOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION(BlueprintCallable)
+	void GrantAbility(class AMyCharacter* PlayerCharacter);
 };

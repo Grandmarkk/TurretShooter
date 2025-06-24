@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-
 #include "MyCharacter.generated.h"
 
 UCLASS()
@@ -42,4 +41,7 @@ public:
 	// Active ability
 	UPROPERTY(BlueprintReadWrite, Category = "Abilities")
 	class UGameplayAbility* ActiveAbility;
+
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	void GetAbility(class UGameplayAbility* AbilityClass);
 };

@@ -51,3 +51,16 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
+void AMyCharacter::GetAbility(UGameplayAbility* AbilityClass)
+{
+	if (IsValid(AbilitySystemComponent) && IsValid(AbilityClass))
+	{
+		AbilitySystemComponent->GiveAbility(AbilityClass);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Invalid Ability System Component or Ability Class"));
+	}
+}
+
+
