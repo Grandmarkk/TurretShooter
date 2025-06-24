@@ -45,6 +45,7 @@ ATurret::ATurret()
 	bIsPlayerTracked = false;
 	FireRate = 0.5f;
 	PlayerCharacter = nullptr;
+	Health = 100.0f;
 
 }
 
@@ -87,6 +88,27 @@ void ATurret::Tick(float DeltaTime)
 		TurretTop->SetRelativeRotation(UKismetMathLibrary::RInterpTo(TurretTop->GetRelativeRotation(), FRotator(0.0f, ScanRotation, 0.0f), DeltaTime, 1.0f));
 	}
 }
+
+bool ATurret::CheckIsDead_Implementation()
+{
+	return Health <= 0;
+}
+
+void ATurret::SelfDestruct_Implementation(FHitResult Hit)
+{
+	DestroyTurret(Hit);
+}
+
+void ATurret::TakeDamage_Implementation(float amount, FHitResult Hit)
+{
+	Health -= amount;
+	if (CheckIsDead_Implementation())
+	{
+		SelfDestruct_Implementation(Hit);
+	}
+}
+
+
 
 void ATurret::DestroyTurret(FHitResult Hit)
 {

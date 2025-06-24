@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Destructible.h"
 #include "Turret.generated.h"
 
 
 class UCapsuleComponent;
 
 UCLASS()
-class TURRETSHOOTER_API ATurret : public AActor
+class TURRETSHOOTER_API ATurret : public AActor, public IDestructible
 {
 	GENERATED_BODY()
 	
@@ -65,7 +66,17 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float FireRate;
 
-	
+	// Health
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float Health;
+
+	// Implement Destructible interface
+	virtual void TakeDamage_Implementation(float amount, FHitResult Hit) override;
+
+protected:
+	virtual bool CheckIsDead_Implementation() override;
+
+	virtual void SelfDestruct_Implementation(FHitResult Hit) override;
 
 private:
 	class ACharacter* PlayerCharacter;

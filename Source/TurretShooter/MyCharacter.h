@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Destructible.h"
 #include "MyCharacter.generated.h"
 
+
 UCLASS()
-class TURRETSHOOTER_API AMyCharacter : public ACharacter
+class TURRETSHOOTER_API AMyCharacter : public ACharacter, public IDestructible
 {
 	GENERATED_BODY()
 
@@ -44,4 +46,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void GetAbility(class TSubclassOf<UGameplayAbility> AbilityClass);
+
+	// Implement Destructible interface
+	virtual void TakeDamage_Implementation(float amount, FHitResult Hit) override;
+
+protected:
+	virtual bool CheckIsDead_Implementation() override;
+
+	virtual void SelfDestruct_Implementation(FHitResult Hit) override;
 };

@@ -64,4 +64,17 @@ void AMyCharacter::GetAbility(TSubclassOf<UGameplayAbility> AbilityClass)
 	}
 }
 
+void AMyCharacter::TakeDamage_Implementation(float amount, FHitResult Hit)
+{
+}
+
+bool AMyCharacter::CheckIsDead_Implementation()
+{
+	return false;
+}
+
+void AMyCharacter::SelfDestruct_Implementation(FHitResult Hit)
+{
+}
+
 
