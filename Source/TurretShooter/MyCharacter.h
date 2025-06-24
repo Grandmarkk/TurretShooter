@@ -43,5 +43,5 @@ public:
 	class UGameplayAbility* ActiveAbility;
 
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
-	void GetAbility(class UGameplayAbility* AbilityClass);
+	void GetAbility(class TSubclassOf<UGameplayAbility> AbilityClass);
 };

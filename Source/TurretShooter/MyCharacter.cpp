@@ -51,11 +51,12 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
-void AMyCharacter::GetAbility(UGameplayAbility* AbilityClass)
+void AMyCharacter::GetAbility(TSubclassOf<UGameplayAbility> AbilityClass)
 {
 	if (IsValid(AbilitySystemComponent) && IsValid(AbilityClass))
 	{
 		AbilitySystemComponent->GiveAbility(AbilityClass);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Ability %s granted!"), *AbilityClass->GetName()));
 	}
 	else
 	{

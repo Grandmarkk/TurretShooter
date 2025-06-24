@@ -9,7 +9,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "NiagaraFunctionLibrary.h"
-#include "HealthComponent.h"
 
 
 // Sets default values
@@ -31,11 +30,8 @@ ATurret::ATurret()
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
 	Arrow->SetupAttachment(TurretTop);
 
-	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 
 	// Bind function
-	HealthComponent->OnHealthExhausted.AddDynamic(this, &ATurret::DestroyTurret);
-
 	CapsulePlayerCheck->OnComponentBeginOverlap.AddDynamic(this, &ATurret::OnCheckBeginOverlap);
 
 	CapsulePlayerCheck->OnComponentEndOverlap.AddDynamic(this, &ATurret::OnCheckEndOverlap);

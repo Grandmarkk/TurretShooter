@@ -26,7 +26,7 @@ public:
 
 	// Ability
 	UPROPERTY(EditAnywhere)
-	class UGameplayAbility* Ability;
+	class TSubclassOf<class UGameplayAbility> Ability;
 
 	// Collision box
 	UPROPERTY(EditAnywhere, Category = "Components")

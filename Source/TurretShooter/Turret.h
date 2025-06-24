@@ -36,9 +36,6 @@ public:
 	UCapsuleComponent* CapsulePlayerCheck;
 
 	UPROPERTY(EditAnywhere)
-	class UHealthComponent* HealthComponent;
-
-	UPROPERTY(EditAnywhere)
 	USoundBase* DestroySound;
 
 	UPROPERTY(EditAnywhere)
