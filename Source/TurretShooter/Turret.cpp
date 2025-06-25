@@ -113,9 +113,9 @@ void ATurret::TakeDamage_Implementation(float amount, FHitResult Hit)
 {
 	Health -= amount;
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("Turret Health: %f"), Health));
-	if (CheckIsDead_Implementation())
+	if (Execute_CheckIsDead(this))
 	{
-		SelfDestruct_Implementation(Hit);
+		Execute_SelfDestruct(this, Hit);
 	}
 }
 

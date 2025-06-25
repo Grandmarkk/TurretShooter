@@ -7,6 +7,7 @@
 #include "Destructible.h"
 #include "MyCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerDeath);
 
 UCLASS()
 class TURRETSHOOTER_API AMyCharacter : public ACharacter, public IDestructible
@@ -36,6 +37,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities")
 	const class UBasicAttributeSet* AttributeSet;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Abilities")
+	UDataTable* DefaultStartingData;
+
 	// Default abilities
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Abilities")
 	TArray<TSubclassOf<class UGameplayAbility>> DefaultAbilities;
@@ -49,6 +53,9 @@ public:
 
 	// Implement Destructible interface
 	virtual void TakeDamage_Implementation(float amount, FHitResult Hit) override;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnPlayerDeath OnPlayerDeath;
 
 protected:
 	virtual bool CheckIsDead_Implementation() override;

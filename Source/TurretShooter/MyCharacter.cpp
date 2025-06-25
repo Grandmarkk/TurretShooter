@@ -13,7 +13,7 @@ AMyCharacter::AMyCharacter()
 
 	// Create ability system
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
-
+	AttributeSet = CreateDefaultSubobject<UBasicAttributeSet>(TEXT("AttributeSet"));
 }
 
 // Called when the game starts or when spawned
@@ -24,8 +24,11 @@ void AMyCharacter::BeginPlay()
 	// Initialize ability system component
 	if (IsValid(AbilitySystemComponent))
 	{
-		AttributeSet = AbilitySystemComponent->GetSet<UBasicAttributeSet>();
+		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 
+		AbilitySystemComponent->InitStats(UBasicAttributeSet::StaticClass(), DefaultStartingData);
+
+		// Grant default abilities to the character
 		for (auto Ability : DefaultAbilities)
 		{
 			AbilitySystemComponent->GiveAbility(Ability);
@@ -64,17 +67,34 @@ void AMyCharacter::GetAbility(TSubclassOf<UGameplayAbility> AbilityClass)
 	}
 }
 
-void AMyCharacter::TakeDamage_Implementation(float amount, FHitResult Hit)
-{
-}
-
 bool AMyCharacter::CheckIsDead_Implementation()
 {
-	return false;
+	if (!AttributeSet)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AttributeSet Invalid"));
+		return true;
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Player health: %f"), AttributeSet->Health.GetCurrentValue()));
+	return AttributeSet->Health.GetCurrentValue() <= 0.0f;
 }
 
 void AMyCharacter::SelfDestruct_Implementation(FHitResult Hit)
 {
+	OnPlayerDeath.Broadcast();
 }
 
-
+void AMyCharacter::TakeDamage_Implementation(float amount, FHitResult Hit)
+{
+	// Maually apply damage to the character's health attribute
+	AbilitySystemComponent->ApplyModToAttribute(
+		UBasicAttributeSet::GetHealthAttribute(),
+		EGameplayModOp::Additive,
+		-amount
+	);
+	
+	if (Execute_CheckIsDead(this))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Player is dead"));
+		Execute_SelfDestruct(this, Hit);
+	}
+}

@@ -61,7 +61,6 @@ void AProjectile::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImp
 	IDestructible* DestructibleActor = Cast<IDestructible>(OtherActor);
 	if (DestructibleActor) 
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("Impact normal: %f, %f, %f"), Hit.ImpactNormal.X, Hit.ImpactNormal.Y, Hit.ImpactNormal.Z));
 		if (!DestructibleActor->Execute_CheckIsDead(OtherActor))
 		{
 			DestructibleActor->Execute_TakeDamage(OtherActor, DamageAmount, Hit);
