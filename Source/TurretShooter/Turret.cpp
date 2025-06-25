@@ -96,34 +96,29 @@ bool ATurret::CheckIsDead_Implementation()
 
 void ATurret::SelfDestruct_Implementation(FHitResult Hit)
 {
-	DestroyTurret(Hit);
+	if (!bIsDestroyed)
+	{
+		bIsDestroyed = true;
+		TurretTop->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		TurretTop->SetSimulatePhysics(true);
+		PrimaryActorTick.SetTickFunctionEnable(false);
+		TurretTop->AddImpulseAtLocation(Hit.ImpactNormal * 8000, Hit.Location);
+		UGameplayStatics::PlaySoundAtLocation(this, DestroySound, GetActorLocation(), 0.5f);
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ExplosionParticle, GetActorLocation() + FVector(0.0f, 0.0f, 10.0f), GetActorRotation());
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+	}
 }
 
 void ATurret::TakeDamage_Implementation(float amount, FHitResult Hit)
 {
 	Health -= amount;
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("Turret Health: %f"), Health));
 	if (CheckIsDead_Implementation())
 	{
 		SelfDestruct_Implementation(Hit);
 	}
 }
 
-
-
-void ATurret::DestroyTurret(FHitResult Hit)
-{
-	if (!bIsDestroyed)
-	{
-		bIsDestroyed = true;
-		TurretTop->SetSimulatePhysics(true);
-		PrimaryActorTick.SetTickFunctionEnable(false);
-		TurretTop->AddImpulseAtLocation(Hit.ImpactNormal * 3, Hit.Location);
-		UGameplayStatics::PlaySoundAtLocation(this, DestroySound, GetActorLocation(), 0.5f);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ExplosionParticle, GetActorLocation() + FVector(0.0f, 0.0f, 10.0f), GetActorRotation());
-		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
-	}
-	
-}
 
 void ATurret::OnCheckBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {

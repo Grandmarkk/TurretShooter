@@ -70,6 +70,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float Health;
 
+
 	// Implement Destructible interface
 	virtual void TakeDamage_Implementation(float amount, FHitResult Hit) override;
 
@@ -82,9 +83,6 @@ private:
 	class ACharacter* PlayerCharacter;
 
 	float ScanRotation;
-
-	UFUNCTION(BlueprintCallable)
-	void DestroyTurret(FHitResult Hit);
 
 	UFUNCTION()
 	void OnCheckBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
